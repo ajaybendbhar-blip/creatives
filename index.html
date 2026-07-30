@@ -1,94 +1,54 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <base target="_top">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DSP Poster Generator</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <style>
+    :root {
+      --bg: #f4f6fb;
+      --card: #ffffff;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --primary: #1a73e8;
+      --border: #d7dbe7;
+    }
     body {
       margin: 0;
-      padding: 20px;
       font-family: Arial, sans-serif;
-      background: #f4f6fb;
-      color: #1f2937;
+      background: var(--bg);
+      color: var(--text);
     }
-    .wrap {
-      max-width: 1280px;
-      margin: 0 auto;
-    }
+    .wrap { max-width: 1280px; margin: 0 auto; padding: 20px; }
     .panel {
-      background: #fff;
+      background: var(--card);
       border-radius: 16px;
       padding: 18px;
       box-shadow: 0 10px 30px rgba(0,0,0,0.08);
       margin-bottom: 18px;
     }
     h1 { margin: 0 0 8px 0; }
-    .small { color: #6b7280; font-size: 13px; line-height: 1.5; }
-    label {
-      display: block;
-      margin-top: 10px;
-      font-weight: 700;
-      font-size: 14px;
-    }
+    .small { color: var(--muted); font-size: 13px; line-height: 1.5; }
+    label { display:block; margin-top:10px; font-weight:700; font-size:14px; }
     input, textarea {
-      width: 100%;
-      box-sizing: border-box;
-      margin-top: 6px;
-      margin-bottom: 12px;
-      padding: 10px;
-      border: 1px solid #d7dbe7;
-      border-radius: 10px;
-      font-size: 14px;
-      outline: none;
+      width:100%; box-sizing:border-box; margin-top:6px; margin-bottom:12px;
+      padding:10px; border:1px solid var(--border); border-radius:10px;
+      font-size:14px; outline:none;
     }
     textarea { min-height: 90px; resize: vertical; }
     button {
-      padding: 12px 16px;
-      border: 0;
-      border-radius: 10px;
-      background: #1a73e8;
-      color: #fff;
-      font-weight: 700;
-      cursor: pointer;
-      margin-right: 8px;
-      margin-top: 4px;
+      padding:12px 16px; border:0; border-radius:10px; background:var(--primary); color:#fff;
+      font-weight:700; cursor:pointer; margin-right:8px; margin-top:4px;
     }
-    button.secondary { background: #5f6368; }
-    button:disabled { opacity: 0.6; cursor: not-allowed; }
-    .status {
-      margin-top: 12px;
-      color: #0b57d0;
-      font-size: 14px;
-      white-space: pre-wrap;
-    }
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 16px;
-    }
-    .rowcard {
-      border: 1px solid #e5e7eb;
-      border-radius: 14px;
-      padding: 12px;
-      background: #fff;
-    }
-    .rowtop {
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-      margin-bottom: 10px;
-    }
-    .rowtitle {
-      font-weight: 800;
-      font-size: 16px;
-    }
-    .rowsub {
-      font-size: 13px;
-      color: #6b7280;
-      margin-top: 2px;
-      line-height: 1.4;
-    }
+    button.secondary { background:#5f6368; }
+    button:disabled { opacity:0.6; cursor:not-allowed; }
+    .status { margin-top:12px; color:#0b57d0; font-size:14px; white-space:pre-wrap; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:16px; }
+    .rowcard { border:1px solid #e5e7eb; border-radius:14px; padding:12px; background:#fff; }
+    .rowtop { display:flex; align-items:flex-start; gap:10px; margin-bottom:10px; }
+    .rowtitle { font-weight:800; font-size:16px; }
+    .rowsub { font-size:13px; color:#6b7280; margin-top:2px; line-height:1.4; }
     .poster {
       position: relative;
       width: 1080px;
@@ -102,54 +62,26 @@
       margin-bottom: -972px;
     }
     .bg {
-      position: absolute;
-      inset: 0;
-      background-size: cover;
-      background-position: center;
-      filter: brightness(0.94);
+      position:absolute; inset:0;
+      background-size:cover; background-position:center;
+      filter:brightness(0.94);
     }
     .overlay {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(to bottom, rgba(0,0,0,0.08), rgba(0,0,0,0.66));
+      position:absolute; inset:0;
+      background:linear-gradient(to bottom, rgba(0,0,0,0.08), rgba(0,0,0,0.66));
     }
     .strip {
-      position: absolute;
-      left: 40px;
-      right: 40px;
-      bottom: 40px;
-      background: rgba(0,0,0,0.82);
-      border: 2px solid rgba(255,255,255,0.16);
-      border-radius: 18px;
-      padding: 28px;
+      position:absolute; left:40px; right:40px; bottom:40px;
+      background:rgba(0,0,0,0.82);
+      border:2px solid rgba(255,255,255,0.16);
+      border-radius:18px; padding:28px;
     }
-    .dealer-name {
-      font-size: 34px;
-      font-weight: 800;
-      margin-bottom: 10px;
-      line-height: 1.1;
-    }
-    .line {
-      font-size: 22px;
-      line-height: 1.45;
-      margin-bottom: 4px;
-    }
-    .contact, .gmb {
-      margin-top: 8px;
-      font-size: 18px;
-      opacity: 0.92;
-      word-break: break-word;
-    }
+    .dealer-name { font-size:34px; font-weight:800; margin-bottom:10px; line-height:1.1; }
+    .line { font-size:22px; line-height:1.45; margin-bottom:4px; }
+    .contact, .gmb { margin-top:8px; font-size:18px; opacity:0.92; word-break:break-word; }
     .copybox {
-      position: absolute;
-      top: 60px;
-      left: 60px;
-      right: 60px;
-      font-size: 34px;
-      line-height: 1.2;
-      font-weight: 700;
-      text-align: center;
-      white-space: pre-wrap;
+      position:absolute; top:60px; left:60px; right:60px;
+      font-size:34px; line-height:1.2; font-weight:700; text-align:center; white-space:pre-wrap;
     }
   </style>
 </head>
@@ -184,7 +116,7 @@
   </div>
 
   <script>
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyP5NJWxJ4VT6UW2qkRROILAr7maCl5ANV-u8-d9Wk8dz2Vklbu7fsL4gEHOjItyz9W/exec';
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxcM3hge5lSPhH2KiZPMOiD3YGbyHV5zb24Kw9CnyHNCV0M5zbPxBmIOZfX4DQwSy_8/exec';
     let rows = [];
     let campaignDataUrl = '';
 
@@ -197,12 +129,6 @@
 
     function setStatus(msg) {
       document.getElementById('status').textContent = msg;
-    }
-
-    function googleRun(method, args = []) {
-      return new Promise((resolve, reject) => {
-        google.script.run.withSuccessHandler(resolve).withFailureHandler(reject)[method](...args);
-      });
     }
 
     async function loadRows() {
@@ -250,7 +176,7 @@
     function selectedRows() {
       const cards = [...document.querySelectorAll('.rowcard')];
       return cards
-        .map((card, idx) => ({ card, row: rows[idx], selected: card.querySelector('.sel').checked }))
+        .map((card, idx) => ({ row: rows[idx], selected: card.querySelector('.sel').checked }))
         .filter(x => x.selected);
     }
 
@@ -279,18 +205,24 @@
         const dataUrl = canvas.toDataURL('image/png');
         const fileName = sanitize(row['Dealership Name'] || `poster_${i + 1}`) + '.png';
 
-        const resp = await fetch(SCRIPT_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-          body: JSON.stringify({
-            action: 'savePoster',
-            dataUrl,
-            fileName,
-            mimeType: 'image/png',
-            rowNumber: row.__rowNumber
-          })
-        });
-        await resp.text();
+        try {
+          const resp = await fetch(SCRIPT_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+            body: JSON.stringify({
+              action: 'savePoster',
+              dataUrl,
+              fileName,
+              mimeType: 'image/png',
+              rowNumber: row.__rowNumber
+            })
+          });
+          await resp.json();
+        } catch (err) {
+          console.error(err);
+          setStatus('Save failed: ' + (err.message || err));
+          return;
+        }
 
         document.body.removeChild(poster);
         setStatus(`Generated ${i + 1} / ${targets.length} : ${row['Dealership Name'] || ''}`);
