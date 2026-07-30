@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>DSP Poster Generator</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs/qrcode.min.js"></script>
   <style>
     :root {
       --bg: #f4f6fb;
@@ -83,6 +84,38 @@
       padding: 18px 24px 16px 24px;
       width: 100%;
       min-height: 240px;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .footer-left {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .footer-right {
+      width: 145px;
+      flex: 0 0 145px;
+      text-align: center;
+    }
+
+    .qr-box {
+      width: 128px;
+      height: 128px;
+      margin: 0 auto 6px auto;
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      padding: 6px;
+      box-sizing: border-box;
+    }
+
+    .qr-label {
+      font-size: 13px;
+      font-weight: 700;
+      color: #000;
+      line-height: 1.3;
     }
 
     .dealer-name {
@@ -129,7 +162,7 @@
       <h1>DSP Poster Generator</h1>
       <div class="small">
         Upload one campaign image, select branches, then generate posters.
-        The original artwork is preserved as-is and the white dealer strip is attached below.
+        The original artwork is preserved as-is and the white dealer strip includes a QR code.
       </div>
 
       <label>Campaign Image</label>
@@ -295,19 +328,42 @@
     }
 
     function buildPoster(row, bgUrl) {
+      const gmb = String(row['GMB_URL'] || '').trim();
+      const qrId = 'qr_' + Math.random().toString(36).slice(2);
+
       const el = document.createElement('div');
       el.className = 'poster';
       el.innerHTML = `
         <img src="${bgUrl}" alt="Campaign Artwork">
         <div class="footer">
-          <div class="dealer-name">${escapeHtml(row['Dealership Name'] || '')}</div>
-          <div class="line">${escapeHtml(row['DSP Address'] || '')}</div>
-          <div class="line">${escapeHtml([row['LOCATION'], row['City'], row['State']].filter(Boolean).join(', '))}</div>
-          <div class="contact">Owner No: ${escapeHtml(row['Owner No'] || '')} | Alternate No: ${escapeHtml(row['Alternate no'] || '')}</div>
-          <div class="locate"><strong>Locate us:</strong> ${escapeHtml(row['GMB_URL'] || '')}</div>
+          <div class="footer-left">
+            <div class="dealer-name">${escapeHtml(row['Dealership Name'] || '')}</div>
+            <div class="line">${escapeHtml(row['DSP Address'] || '')}</div>
+            <div class="line">${escapeHtml([row['LOCATION'], row['City'], row['State']].filter(Boolean).join(', '))}</div>
+            <div class="contact">Owner No: ${escapeHtml(row['Owner No'] || '')} | Alternate No: ${escapeHtml(row['Alternate no'] || '')}</div>
+          </div>
+          <div class="footer-right">
+            <div id="${qrId}" class="qr-box"></div>
+            <div class="qr-label">Scan to locate us</div>
+          </div>
         </div>
       `;
       document.body.appendChild(el);
+
+      const qrHost = el.querySelector('#' + qrId);
+      if (gmb) {
+        new QRCode(qrHost, {
+          text: gmb,
+          width: 116,
+          height: 116,
+          colorDark: '#000000',
+          colorLight: '#ffffff',
+          correctLevel: QRCode.CorrectLevel.M
+        });
+      } else {
+        qrHost.innerHTML = '<div style="font-size:12px;color:#777;padding-top:40px;">No link</div>';
+      }
+
       el.style.position = 'fixed';
       el.style.left = '-99999px';
       el.style.top = '0';
