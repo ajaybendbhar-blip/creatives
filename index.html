@@ -3,469 +3,338 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Brand Poster Generator</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <title>DSP Poster Generator</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <style>
-    :root{
-      --bg:#eef5fa;
-      --panel:#fff;
-      --text:#0f172a;
-      --muted:#64748b;
-      --border:#dbe5ee;
-      --brand:#0068ae;
-      --brand2:#0084d1;
-      --shadow:0 16px 42px rgba(15,23,42,.12);
-      --radius:22px;
+    :root {
+      --bg: #f4f6fb;
+      --card: #ffffff;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --primary: #1a73e8;
+      --border: #d7dbe7;
     }
-    *{box-sizing:border-box}
-    html,body{margin:0;padding:0}
-    body{
-      font-family:Inter,sans-serif;
-      background:linear-gradient(180deg,#ebf4fa 0%,#f7fafc 100%);
-      color:var(--text);
-      min-height:100vh;
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
     }
-    .page{max-width:1440px;margin:0 auto;padding:16px}
-    .topbar{display:flex;align-items:center;gap:12px;margin-bottom:16px}
-    .brand-mark{
-      width:44px;height:44px;border-radius:14px;display:grid;place-items:center;
-      background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;font-weight:900;
-      box-shadow:0 10px 24px rgba(0,132,209,.2)
+    .wrap {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
     }
-    .topbar h1{margin:0;font-size:28px;line-height:1.1;color:var(--brand);font-weight:900}
-    .topbar p{margin:3px 0 0;color:var(--muted);font-size:14px}
-    .layout{display:grid;grid-template-columns:420px 1fr;gap:18px;align-items:start}
-    @media (max-width:1100px){.layout{grid-template-columns:1fr}}
-    .panel{
-      background:rgba(255,255,255,.96);
-      border:1px solid var(--border);
-      border-radius:var(--radius);
-      box-shadow:var(--shadow);
-      overflow:hidden;
+    .panel {
+      background: var(--card);
+      border-radius: 16px;
+      padding: 18px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+      margin-bottom: 18px;
     }
-    .panel-body{padding:18px}
-    h2{margin:0 0 8px;font-size:24px;line-height:1.15}
-    .subtext{margin:0 0 16px;color:var(--muted);font-size:14px;line-height:1.6}
-    .field{margin-bottom:12px}
-    label{
-      display:block;margin-bottom:6px;font-size:12px;font-weight:800;color:var(--muted);
-      letter-spacing:.08em;text-transform:uppercase
+    h1 {
+      margin: 0 0 10px 0;
     }
-    input,textarea,select,button{font:inherit}
-    input,textarea,select{
-      width:100%;
-      padding:12px 14px;
-      border:1px solid var(--border);
-      border-radius:12px;
-      background:#fff;
-      color:var(--text);
-      font-size:14px;
-      outline:none;
+    .small {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
     }
-    textarea{min-height:92px;resize:vertical}
-    input:focus,textarea:focus,select:focus{
-      border-color:var(--brand2);
-      box-shadow:0 0 0 4px rgba(0,132,209,.12);
+    label {
+      display: block;
+      margin-top: 10px;
+      font-weight: 700;
+      font-size: 14px;
     }
-    .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-    @media (max-width:700px){.row{grid-template-columns:1fr}}
-    .btn-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
-    .btn{
-      border:0;
-      border-radius:999px;
-      padding:12px 16px;
-      min-height:44px;
-      font-size:14px;
-      font-weight:800;
-      cursor:pointer
+    input, textarea {
+      width: 100%;
+      box-sizing: border-box;
+      margin-top: 6px;
+      margin-bottom: 12px;
+      padding: 10px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-size: 14px;
+      outline: none;
     }
-    .primary{background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff}
-    .secondary{background:#eef5fb;color:var(--brand);border:1px solid #cfe1f2}
-    .dark{background:#0f172a;color:#fff}
-    .status{
-      margin-top:14px;
-      padding:12px 14px;
-      border-radius:12px;
-      background:#f8fbfd;
-      border:1px solid var(--border);
-      font-size:14px;
-      white-space:pre-wrap
+    textarea {
+      min-height: 90px;
+      resize: vertical;
     }
-    .status.error{background:#fff4f2;border-color:#efc2bb;color:#b42318}
-    .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
-    .chip{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding:8px 12px;
-      background:#eaf5fc;
-      color:#0b5c96;
-      border:1px solid #cfe1f2;
-      border-radius:999px;
-      font-size:13px;
-      font-weight:800
+    button {
+      padding: 12px 16px;
+      border: 0;
+      border-radius: 10px;
+      background: var(--primary);
+      color: #fff;
+      font-weight: 700;
+      cursor: pointer;
+      margin-right: 8px;
+      margin-top: 4px;
     }
-    .chip button{border:0;background:none;cursor:pointer}
-    .poster-wrap{padding:14px}
-    .poster-shell{
-      max-width:860px;
-      margin:0 auto;
-      background:#fff;
-      border-radius:24px;
-      overflow:hidden;
-      box-shadow:0 24px 52px rgba(15,23,42,.18)
+    button.secondary {
+      background: #5f6368;
     }
-    .poster-header{
-      display:flex;
-      justify-content:space-between;
-      gap:16px;
-      align-items:center;
-      padding:12px 18px;
-      background:#fff;
-      border-bottom:1px solid #edf2f7
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
     }
-    .logo{width:150px;max-width:42vw;display:block}
-    .headline-small{
-      font-size:9px;
-      line-height:1.2;
-      font-weight:800;
-      letter-spacing:.08em;
-      text-transform:uppercase;
-      color:#1f2937;
-      max-width:220px;
-      text-align:right
+    .status {
+      margin-top: 12px;
+      color: #0b57d0;
+      font-size: 14px;
+      white-space: pre-wrap;
     }
-    .hero{
-      position:relative;
-      min-height:1120px;
-      background:#0f172a;
+    #previewArea {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 18px;
     }
-    .hero-img{
-      position:absolute;
-      inset:0;
-      width:100%;
-      height:100%;
-      object-fit:cover;
+    .poster {
+      position: relative;
+      width: 1080px;
+      height: 1350px;
+      overflow: hidden;
+      background: #111;
+      color: #fff;
+      border-radius: 16px;
+      transform: scale(0.28);
+      transform-origin: top left;
+      margin-bottom: -972px;
     }
-    .hero-top{
-      position:absolute;
-      inset:0;
-      pointer-events:none;
+    .bg {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+      filter: brightness(0.92);
     }
-    .campaign-copy{
-      position:absolute;
-      left:20px;
-      top:16px;
-      right:20px;
-      z-index:4;
-      display:flex;
-      flex-direction:column;
-      gap:8px;
-      align-items:flex-start;
+    .overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.12), rgba(0,0,0,0.68));
     }
-    .campaign-copy .tag{
-      display:inline-flex;
-      padding:7px 12px;
-      border-radius:999px;
-      background:rgba(255,255,255,.16);
-      border:1px solid rgba(255,255,255,.22);
-      backdrop-filter:blur(8px);
-      font-size:12px;
-      color:#fff;
-      font-weight:800;
+    .copy {
+      position: absolute;
+      top: 60px;
+      left: 60px;
+      right: 60px;
+      font-size: 34px;
+      line-height: 1.2;
+      font-weight: 700;
+      text-align: center;
+      white-space: pre-wrap;
     }
-    .campaign-copy .copy{
-      max-width:min(62%,520px);
-      font-size:15px;
-      line-height:1.55;
-      color:#fff;
-      text-shadow:0 2px 10px rgba(0,0,0,.18);
+    .strip {
+      position: absolute;
+      left: 40px;
+      right: 40px;
+      bottom: 40px;
+      background: rgba(0,0,0,0.80);
+      border: 2px solid rgba(255,255,255,0.16);
+      border-radius: 18px;
+      padding: 28px;
     }
-    .ac{
-      position:absolute;
-      right:24px;
-      top:230px;
-      width:min(34%,260px);
-      filter:drop-shadow(0 18px 34px rgba(0,0,0,.2));
-      z-index:3;
+    .dealer-name {
+      font-size: 34px;
+      font-weight: 800;
+      margin-bottom: 10px;
     }
-    .offer-row{
-      position:absolute;
-      left:22px;
-      right:22px;
-      bottom:120px;
-      display:flex;
-      flex-wrap:wrap;
-      gap:10px;
-      z-index:4;
-      align-items:center;
+    .line {
+      font-size: 22px;
+      line-height: 1.45;
+      margin-bottom: 4px;
     }
-    .offer-row img{
-      height:70px;
-      max-width:170px;
-      object-fit:contain;
-      display:block;
+    .contact, .gmb {
+      margin-top: 8px;
+      font-size: 18px;
+      opacity: 0.92;
+      word-break: break-word;
     }
-    .dealer-strip{
-      background:#fff;
-      padding:16px 18px;
-      border-top:1px solid #e8edf3;
-      display:grid;
-      grid-template-columns:1fr auto;
-      gap:16px;
-      align-items:center;
-    }
-    .dealer-kicker{
-      font-size:11px;
-      letter-spacing:.08em;
-      text-transform:uppercase;
-      color:#64748b;
-      font-weight:900;
-      margin-bottom:6px;
-    }
-    .dealer-name{
-      font-size:24px;
-      line-height:1.15;
-      font-weight:900;
-      color:#0f172a;
-      margin-bottom:8px;
-    }
-    .dealer-meta,.dealer-link a{
-      font-size:14px;
-      line-height:1.55;
-      color:#334155;
-    }
-    .dealer-link a{
-      color:var(--brand2);
-      text-decoration:none;
-      font-weight:800;
-    }
-    .pill{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      border-radius:999px;
-      padding:10px 14px;
-      background:#eef8f1;
-      border:1px solid #cfe8d7;
-      color:#166534;
-      font-size:13px;
-      font-weight:900;
-      white-space:nowrap;
-    }
-    .footer{
-      padding:10px 18px 16px;
-      color:#64748b;
-      font-size:11px;
-      line-height:1.5;
-      border-top:1px solid #edf2f7;
-      background:#f9fbfd;
-    }
-    @media (max-width:760px){
-      .poster-header{padding:12px 14px}
-      .headline-small{max-width:160px;font-size:8px}
-      .dealer-strip{grid-template-columns:1fr}
-      .ac{right:16px;top:210px;width:180px}
-      .offer-row{left:16px;right:16px;bottom:92px}
-      .offer-row img{height:58px;max-width:140px}
-      .hero{min-height:980px}
+    .row-count {
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 13px;
     }
   </style>
 </head>
 <body>
-  <div class="page">
-    <div class="topbar">
-      <div class="brand-mark">D</div>
-      <div>
-        <h1>Brand Poster Generator</h1>
-        <p>Upload approved campaign image and copy, then generate branchwise posters.</p>
+  <div class="wrap">
+    <div class="panel">
+      <h1>DSP Poster Generator</h1>
+      <div class="small">
+        Paste your Apps Script web app URL, campaign image URL, and approved copy.
+        Then load sheet rows, preview posters, and generate PNGs.
       </div>
+
+      <label>Apps Script Web App URL</label>
+      <input id="scriptUrl" value="https://script.google.com/macros/s/AKfycbzV-NKnZQawcN-crsk9hnplkl-OJNmiucfpgVZ_F2iJ24-oqdxLEEj0EEIrHtJSjSmE/exec" />
+
+      <label>Campaign Image URL</label>
+      <input id="imgUrl" placeholder="Paste public image URL" />
+
+      <label>Approved Campaign Copy</label>
+      <textarea id="copyText" placeholder="Paste approved campaign copy"></textarea>
+
+      <button onclick="loadRows()">Load Rows</button>
+      <button onclick="loadPreviews()">Preview Posters</button>
+      <button onclick="generatePNGs()">Generate PNGs</button>
+      <div id="status" class="status"></div>
+      <div id="rowCount" class="row-count"></div>
     </div>
 
-    <div class="layout">
-      <section class="panel">
-        <div class="panel-body">
-          <h2>Inputs</h2>
-          <p class="subtext">Campaign image, approved copy, dealer selection, and offer logos.</p>
-
-          <div class="field">
-            <label for="campaign-image">Campaign image</label>
-            <input id="campaign-image" type="file" accept="image/*">
-          </div>
-
-          <div class="field">
-            <label for="campaign-copy">Approved campaign copy</label>
-            <textarea id="campaign-copy" placeholder="Paste approved campaign copy here"></textarea>
-          </div>
-
-          <div class="field">
-            <label for="brand">Brand / Campaign</label>
-            <input id="brand" type="text" placeholder="Daikin">
-          </div>
-
-          <div class="field">
-            <label for="dealer-select">Dealer</label>
-            <select id="dealer-select"></select>
-          </div>
-
-          <div class="row">
-            <div class="field">
-              <label for="mode">Output</label>
-              <select id="mode">
-                <option value="png">PNG</option>
-                <option value="jpeg">JPEG</option>
-              </select>
-            </div>
-            <div class="field">
-              <label for="filename">Filename</label>
-              <input id="filename" type="text" placeholder="poster">
-            </div>
-          </div>
-
-          <div class="field">
-            <label>Offer logos</label>
-            <div id="offers"></div>
-            <div class="chips" id="offer-chips"></div>
-          </div>
-
-          <div class="btn-row">
-            <button class="btn primary" id="save-template">Save Template</button>
-            <button class="btn secondary" id="generate-one">Generate Selected</button>
-            <button class="btn dark" id="generate-all">Generate All</button>
-          </div>
-
-          <div id="status" class="status">Ready.</div>
-        </div>
-      </section>
-
-      <section class="panel">
-        <div class="poster-wrap">
-          <div class="poster-shell" id="poster-shell">
-            <div class="poster-header">
-              <img id="logo" class="logo" alt="Brand logo">
-              <div class="headline-small">WORLD'S LEADING AIR CONDITIONING COMPANY FROM JAPAN</div>
-            </div>
-
-            <div class="hero">
-              <img id="hero-img" class="hero-img" alt="Campaign artwork">
-              <img id="ac" class="ac" alt="AC product">
-              <div class="hero-top">
-                <div class="campaign-copy">
-                  <div class="tag" id="campaign-tag">Approved Campaign</div>
-                  <div class="copy" id="copy-preview"></div>
-                </div>
-                <div class="offer-row" id="offer-row"></div>
-              </div>
-            </div>
-
-            <div class="dealer-strip">
-              <div>
-                <div class="dealer-kicker">Authorized Dealer</div>
-                <div class="dealer-name" id="dealer-name">Dealer Name</div>
-                <div class="dealer-meta" id="dealer-address">Address, City, State</div>
-                <div class="dealer-meta" id="dealer-phone">Owner / Alternate</div>
-                <div class="dealer-link">
-                  <a id="gmb-link" href="#" target="_blank" rel="noopener noreferrer">View location & rate us</a>
-                </div>
-              </div>
-              <div class="pill">✔ Brand Compliance Approved</div>
-            </div>
-
-            <div class="footer">
-              Output poster is composed in the browser. Use Save Template once per campaign, then generate posters branchwise.
-            </div>
-          </div>
-        </div>
-      </section>
-    </div>
+    <div id="previewArea"></div>
   </div>
 
   <script>
-    const APP_URL = 'https://script.google.com/macros/s/AKfycbxgHIxHPXJDA-dRfhxn6U_9ppBy-Rtvx1z6-mVsROGx3OPJ5T0il8Pvlj7bnPZV4ImD/exec';
+    let rows = [];
 
-    const state = {
-      dealers: [],
-      assets: {},
-      template: { campaignName:'', campaignCopy:'', brand:'', campaignImageDataUrl:'' },
-      selectedDealerIndex: 0,
-      selectedOffers: []
-    };
-
-    const el = id => document.getElementById(id);
-    const dealerSelect = el('dealer-select');
-    const offersEl = el('offers');
-    const offerChips = el('offer-chips');
-    const statusEl = el('status');
-    const heroImg = el('hero-img');
-    const acImg = el('ac');
-    const logoImg = el('logo');
-    const copyPreview = el('copy-preview');
-    const dealerName = el('dealer-name');
-    const dealerAddress = el('dealer-address');
-    const dealerPhone = el('dealer-phone');
-    const gmbLink = el('gmb-link');
-    const campaignTag = el('campaign-tag');
-
-    function setStatus(msg, err=false){
-      statusEl.className = err ? 'status error' : 'status';
-      statusEl.textContent = msg;
+    function setStatus(msg) {
+      document.getElementById('status').textContent = msg;
     }
 
-    function fileToDataUrl(file){
-      return new Promise((resolve,reject)=>{
-        const r = new FileReader();
-        r.onload = ()=>resolve(r.result);
-        r.onerror = reject;
-        r.readAsDataURL(file);
-      });
+    function getScriptUrl() {
+      return document.getElementById('scriptUrl').value.trim().replace(/\/$/, '');
     }
 
-    function populateDealers(){
-      dealerSelect.innerHTML = '';
-      state.dealers.forEach((d,i)=>{
-        const o = document.createElement('option');
-        o.value = i;
-        o.textContent = [d.dealerCode, d.dealerName].filter(Boolean).join(' - ');
-        dealerSelect.appendChild(o);
-      });
-      dealerSelect.value = '0';
+    async function loadRows() {
+      const url = getScriptUrl();
+      if (!url) {
+        setStatus('Please paste the Apps Script web app URL.');
+        return;
+      }
+
+      setStatus('Loading rows...');
+      try {
+        const res = await fetch(url + '?action=getRows', { method: 'GET' });
+        const data = await res.json();
+        rows = data.rows || [];
+        document.getElementById('rowCount').textContent = `Loaded ${rows.length} rows.`;
+        setStatus(`Loaded ${rows.length} rows.`);
+        loadPreviews();
+      } catch (err) {
+        setStatus('Error loading rows: ' + err.message);
+      }
     }
 
-    function hydrateAssets(){
-      const a = state.assets || {};
-      if (a.logoUrl) logoImg.src = a.logoUrl;
-      if (a.acUrl) acImg.src = a.acUrl;
-      renderOffers();
+    function buildPoster(row) {
+      const poster = document.createElement('div');
+      poster.className = 'poster';
+
+      const bg = document.createElement('div');
+      bg.className = 'bg';
+      bg.style.backgroundImage = `url('${document.getElementById('imgUrl').value.trim()}')`;
+      poster.appendChild(bg);
+
+      const overlay = document.createElement('div');
+      overlay.className = 'overlay';
+      poster.appendChild(overlay);
+
+      const copy = document.createElement('div');
+      copy.className = 'copy';
+      copy.textContent = document.getElementById('copyText').value.trim();
+      poster.appendChild(copy);
+
+      const strip = document.createElement('div');
+      strip.className = 'strip';
+      strip.innerHTML = `
+        <div class="dealer-name">${escapeHtml(row['Dealership Name'] || '')}</div>
+        <div class="line">${escapeHtml(row['DSP Address'] || '')}</div>
+        <div class="line">${escapeHtml(row['LOCATION'] || '')}, ${escapeHtml(row['City'] || '')}, ${escapeHtml(row['State'] || '')}</div>
+        <div class="contact">Owner No: ${escapeHtml(row['Owner No'] || '')} | Alternate No: ${escapeHtml(row['Alternate no'] || '')}</div>
+        <div class="gmb">GMB: ${escapeHtml(row['GMB_URL'] || '')}</div>
+      `;
+      poster.appendChild(strip);
+
+      return poster;
     }
 
-    function renderOffers(){
-      const offers = Object.entries((state.assets && state.assets.offers) || {});
-      offersEl.innerHTML = '';
-      offerChips.innerHTML = '';
-      if (!state.selectedOffers.length) state.selectedOffers = [];
+    function loadPreviews() {
+      const area = document.getElementById('previewArea');
+      area.innerHTML = '';
 
-      offers.forEach(([key, offer])=>{
-        const row = document.createElement('label');
-        row.style.display = 'block';
-        row.style.marginBottom = '8px';
-        row.style.padding = '10px 12px';
-        row.style.border = '1px solid var(--border)';
-        row.style.borderRadius = '12px';
-        row.style.background = '#fff';
-        row.innerHTML = `<input type="checkbox" data-key="${key}" style="width:16px;height:16px;vertical-align:middle;margin-right:10px" ${state.selectedOffers.includes(key) ? 'checked' : ''}>${offer.label || key}`;
-        offersEl.appendChild(row);
-      });
+      if (!rows.length) {
+        area.innerHTML = '<div class="panel">No rows loaded.</div>';
+        return;
+      }
 
-      renderOfferChips();
-      renderOfferRow();
+      const limit = Math.min(rows.length, 6);
+      for (let i = 0; i < limit; i++) {
+        const card = document.createElement('div');
+        card.className = 'panel';
+        card.appendChild(buildPoster(rows[i]));
+        area.appendChild(card);
+      }
+      setStatus(`Previewing ${limit} of ${rows.length} posters.`);
     }
 
-    function renderOfferChips(){
-      offerChips.innerHTML = '';
-      state.selectedOffers.forEach(key=>{
-        const offer = (state.assets.offers || {})[key];
-        if(!offer) return;
-        const chip = document
+    async function generatePNGs() {
+      const url = getScriptUrl();
+      const img = document.getElementById('imgUrl').value.trim();
+      const copy = document.getElementById('copyText').value.trim();
+
+      if (!url || !img || !copy) {
+        setStatus('Please fill Apps Script URL, image URL, and approved copy.');
+        return;
+      }
+      if (!rows.length) {
+        setStatus('Load rows first.');
+        return;
+      }
+
+      setStatus('Generating PNGs...');
+      for (let i = 0; i < rows.length; i++) {
+        const temp = document.createElement('div');
+        temp.style.position = 'fixed';
+        temp.style.left = '-99999px';
+        temp.appendChild(buildPoster(rows[i]));
+        document.body.appendChild(temp);
+
+        const poster = temp.querySelector('.poster');
+        const canvas = await html2canvas(poster, {
+          useCORS: true,
+          scale: 2,
+          backgroundColor: null
+        });
+
+        const dataUrl = canvas.toDataURL('image/png');
+        const fileName = sanitize(rows[i]['Dealership Name'] || ('poster_' + (i + 1))) + '.png';
+
+        await fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'text/plain;charset=utf-8'
+          },
+          body: JSON.stringify({
+            action: 'savePng',
+            fileName: fileName,
+            dataUrl: dataUrl
+          })
+        }).then(r => r.text());
+
+        document.body.removeChild(temp);
+        setStatus(`Generated ${i + 1} of ${rows.length}`);
+      }
+
+      setStatus('Done. PNGs saved to Drive.');
+    }
+
+    function escapeHtml(str) {
+      return String(str || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function sanitize(name) {
+      return String(name || '')
+        .trim()
+        .replace(/[\\\/:*?"<>|]+/g, '_')
+        .replace(/\s+/g, '_')
+        .substring(0, 120);
+    }
+  </script>
+</body>
+</html>
