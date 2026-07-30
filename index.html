@@ -20,7 +20,11 @@
       background: var(--bg);
       color: var(--text);
     }
-    .wrap { max-width: 1280px; margin: 0 auto; padding: 20px; }
+    .wrap {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 20px;
+    }
     .panel {
       background: var(--card);
       border-radius: 16px;
@@ -30,94 +34,133 @@
     }
     h1 { margin: 0 0 8px 0; }
     .small { color: var(--muted); font-size: 13px; line-height: 1.5; }
-    label { display:block; margin-top:10px; font-weight:700; font-size:14px; }
-    input, textarea {
-      width:100%; box-sizing:border-box; margin-top:6px; margin-bottom:12px;
-      padding:10px; border:1px solid var(--border); border-radius:10px;
-      font-size:14px; outline:none;
+    label {
+      display: block;
+      margin-top: 10px;
+      font-weight: 700;
+      font-size: 14px;
     }
-    textarea { min-height: 90px; resize: vertical; }
+    input {
+      width: 100%;
+      box-sizing: border-box;
+      margin-top: 6px;
+      margin-bottom: 12px;
+      padding: 10px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-size: 14px;
+      outline: none;
+      background: #fff;
+    }
     button {
-      padding:12px 16px; border:0; border-radius:10px; background:var(--primary); color:#fff;
-      font-weight:700; cursor:pointer; margin-right:8px; margin-top:4px;
+      padding: 12px 16px;
+      border: 0;
+      border-radius: 10px;
+      background: var(--primary);
+      color: #fff;
+      font-weight: 700;
+      cursor: pointer;
+      margin-right: 8px;
+      margin-top: 4px;
     }
-    button.secondary { background:#5f6368; }
-    button:disabled { opacity:0.6; cursor:not-allowed; }
-    .status { margin-top:12px; color:#0b57d0; font-size:14px; white-space:pre-wrap; }
-    .grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:16px; }
-    .rowcard { border:1px solid #e5e7eb; border-radius:14px; padding:12px; background:#fff; }
-    .rowtop { display:flex; align-items:flex-start; gap:10px; margin-bottom:10px; }
-    .rowtitle { font-weight:800; font-size:16px; }
-    .rowsub { font-size:13px; color:#6b7280; margin-top:2px; line-height:1.4; }
+    button.secondary {
+      background: #5f6368;
+    }
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+    .status {
+      margin-top: 12px;
+      color: #0b57d0;
+      font-size: 14px;
+      white-space: pre-wrap;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 16px;
+    }
+    .rowcard {
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      padding: 12px;
+      background: #fff;
+    }
+    .rowtop {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .rowtitle {
+      font-weight: 800;
+      font-size: 16px;
+    }
+    .rowsub {
+      font-size: 13px;
+      color: #6b7280;
+      margin-top: 2px;
+      line-height: 1.4;
+    }
 
+    /* Final poster canvas area */
     .poster {
       position: relative;
-      width: 1080px;
-      height: 1350px;
-      overflow: hidden;
-      background: #111;
+      width: auto;
+      background: #fff;
       color: #000;
-      border-radius: 14px;
-      transform: scale(0.28);
-      transform-origin: top left;
-      margin-bottom: -972px;
-    }
-    .bg {
-      position:absolute; inset:0;
-      background-size:cover;
-      background-position:center;
-      filter:brightness(0.96);
-    }
-    .overlay {
-      position:absolute; inset:0;
-      background:linear-gradient(to bottom, rgba(255,255,255,0.00), rgba(255,255,255,0.00));
+      border-radius: 0;
+      overflow: hidden;
+      display: inline-block;
     }
 
-    /* White dealer strip */
-    .strip {
-      position:absolute;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      height: 255px;
+    .poster img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .footer {
       background: #ffffff;
       color: #000000;
       border-top: 1px solid #e5e7eb;
-      box-shadow: 0 -6px 20px rgba(0,0,0,0.10);
-      padding: 20px 28px 18px 28px;
       box-sizing: border-box;
+      padding: 18px 24px 16px 24px;
+      width: 100%;
+      min-height: 240px;
     }
 
     .dealer-name {
       font-size: 34px;
       font-weight: 800;
-      margin-bottom: 8px;
       line-height: 1.1;
+      margin-bottom: 8px;
       color: #000;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
+      word-break: break-word;
     }
 
     .line {
       font-size: 19px;
-      line-height: 1.35;
+      line-height: 1.38;
       margin-bottom: 4px;
       color: #000;
+      word-break: break-word;
     }
 
     .contact {
       margin-top: 8px;
       font-size: 18px;
-      color: #000;
       line-height: 1.35;
+      color: #000;
+      word-break: break-word;
     }
 
     .locate {
       margin-top: 6px;
       font-size: 18px;
-      color: #000;
       line-height: 1.35;
+      color: #000;
       word-break: break-word;
     }
 
@@ -125,18 +168,18 @@
       font-weight: 800;
     }
 
-    .copybox {
-      position:absolute;
-      top: 56px;
-      left: 60px;
-      right: 60px;
-      font-size: 34px;
-      line-height: 1.2;
-      font-weight: 700;
-      text-align: center;
-      white-space: pre-wrap;
-      color: #fff;
-      text-shadow: 0 2px 8px rgba(0,0,0,0.35);
+    .previewwrap {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .previewbox {
+      overflow: auto;
+      border-radius: 12px;
+      border: 1px solid #dbe2ea;
+      background: #fff;
+      padding: 10px;
     }
   </style>
 </head>
@@ -145,15 +188,12 @@
     <div class="panel">
       <h1>DSP Poster Generator</h1>
       <div class="small">
-        Upload one campaign image, select branches, then generate PNG posters.
-        Each output is saved to Drive and the URL is written back to your sheet.
+        Upload one campaign image, select branches, then generate posters.
+        The original artwork is preserved as-is and the white dealer strip is attached below.
       </div>
 
       <label>Campaign Image</label>
       <input type="file" id="imageFile" accept="image/*" />
-
-      <label>Approved Copy</label>
-      <textarea id="approvedCopy" placeholder="Paste approved copy here"></textarea>
 
       <div style="margin-top:10px;">
         <button onclick="loadRows()">Load Branches</button>
@@ -168,18 +208,26 @@
     <div class="panel">
       <div id="branchList" class="grid"></div>
     </div>
+
+    <div class="panel">
+      <div class="small">Preview</div>
+      <div id="previewArea" class="previewwrap"></div>
+    </div>
   </div>
 
   <script>
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxcM3hge5lSPhH2KiZPMOiD3YGbyHV5zb24Kw9CnyHNCV0M5zbPxBmIOZfX4DQwSy_8/exec';
     let rows = [];
     let campaignDataUrl = '';
+    let campaignFileName = '';
 
     document.getElementById('imageFile').addEventListener('change', async (e) => {
       const file = e.target.files[0];
       if (!file) return;
       campaignDataUrl = await fileToDataUrl(file);
+      campaignFileName = file.name || 'campaign.png';
       setStatus('Campaign image loaded.');
+      if (rows.length) renderPreviewRows();
     });
 
     function setStatus(msg) {
@@ -194,6 +242,7 @@
         rows = data.rows || [];
         renderRows();
         setStatus(`Loaded ${rows.length} branches.`);
+        renderPreviewRows();
       } catch (err) {
         setStatus('Error loading rows: ' + (err.message || err));
       }
@@ -235,14 +284,27 @@
         .filter(x => x.selected);
     }
 
+    function renderPreviewRows() {
+      const area = document.getElementById('previewArea');
+      area.innerHTML = '';
+      if (!campaignDataUrl || !rows.length) return;
+
+      const limit = Math.min(rows.length, 2);
+      for (let i = 0; i < limit; i++) {
+        const poster = buildPoster(rows[i], campaignDataUrl);
+        poster.style.transform = 'scale(0.25)';
+        poster.style.transformOrigin = 'top left';
+        poster.style.marginBottom = '-700px';
+        const box = document.createElement('div');
+        box.className = 'previewbox';
+        box.appendChild(poster);
+        area.appendChild(box);
+      }
+    }
+
     async function generateSelected() {
       if (!campaignDataUrl) {
         setStatus('Please upload the campaign image first.');
-        return;
-      }
-      const copy = document.getElementById('approvedCopy').value.trim();
-      if (!copy) {
-        setStatus('Please paste approved copy.');
         return;
       }
 
@@ -255,8 +317,14 @@
       setStatus(`Generating ${targets.length} posters...`);
       for (let i = 0; i < targets.length; i++) {
         const row = targets[i].row;
-        const poster = buildPoster(row, campaignDataUrl, copy);
-        const canvas = await html2canvas(poster, { useCORS: true, scale: 2, backgroundColor: null });
+        const poster = buildPoster(row, campaignDataUrl);
+
+        const canvas = await html2canvas(poster, {
+          useCORS: true,
+          scale: 2,
+          backgroundColor: '#ffffff'
+        });
+
         const dataUrl = canvas.toDataURL('image/png');
         const fileName = sanitize(row['Dealership Name'] || `poster_${i + 1}`) + '.png';
 
@@ -272,7 +340,9 @@
               rowNumber: row.__rowNumber
             })
           });
-          await resp.json();
+
+          const result = await resp.json();
+          if (!result.ok) throw new Error(result.error || 'Save failed');
         } catch (err) {
           console.error(err);
           setStatus('Save failed: ' + (err.message || err));
@@ -286,14 +356,12 @@
       setStatus('Done. Files saved to Drive and URLs written back to the sheet.');
     }
 
-    function buildPoster(row, bgUrl, copyText) {
+    function buildPoster(row, bgUrl) {
       const el = document.createElement('div');
       el.className = 'poster';
       el.innerHTML = `
-        <div class="bg" style="background-image:url('${bgUrl}')"></div>
-        <div class="overlay"></div>
-        <div class="copybox">${escapeHtml(copyText)}</div>
-        <div class="strip">
+        <img src="${bgUrl}" alt="Campaign Artwork">
+        <div class="footer">
           <div class="dealer-name">${escapeHtml(row['Dealership Name'] || '')}</div>
           <div class="line">${escapeHtml(row['DSP Address'] || '')}</div>
           <div class="line">${escapeHtml([row['LOCATION'], row['City'], row['State']].filter(Boolean).join(', '))}</div>
@@ -304,6 +372,7 @@
       document.body.appendChild(el);
       el.style.position = 'fixed';
       el.style.left = '-99999px';
+      el.style.top = '0';
       return el;
     }
 
