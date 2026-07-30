@@ -20,11 +20,7 @@
       background: var(--bg);
       color: var(--text);
     }
-    .wrap {
-      max-width: 1280px;
-      margin: 0 auto;
-      padding: 20px;
-    }
+    .wrap { max-width: 1280px; margin: 0 auto; padding: 20px; }
     .panel {
       background: var(--card);
       border-radius: 16px;
@@ -34,85 +30,44 @@
     }
     h1 { margin: 0 0 8px 0; }
     .small { color: var(--muted); font-size: 13px; line-height: 1.5; }
-    label {
-      display: block;
-      margin-top: 10px;
-      font-weight: 700;
-      font-size: 14px;
-    }
+    label { display:block; margin-top:10px; font-weight:700; font-size:14px; }
     input {
-      width: 100%;
-      box-sizing: border-box;
-      margin-top: 6px;
-      margin-bottom: 12px;
-      padding: 10px;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      font-size: 14px;
-      outline: none;
-      background: #fff;
+      width:100%; box-sizing:border-box; margin-top:6px; margin-bottom:12px;
+      padding:10px; border:1px solid var(--border); border-radius:10px;
+      font-size:14px; outline:none; background:#fff;
     }
     button {
-      padding: 12px 16px;
-      border: 0;
-      border-radius: 10px;
-      background: var(--primary);
-      color: #fff;
-      font-weight: 700;
-      cursor: pointer;
-      margin-right: 8px;
-      margin-top: 4px;
+      padding:12px 16px; border:0; border-radius:10px; background:var(--primary); color:#fff;
+      font-weight:700; cursor:pointer; margin-right:8px; margin-top:4px;
     }
-    button.secondary {
-      background: #5f6368;
-    }
-    button:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-    }
-    .status {
-      margin-top: 12px;
-      color: #0b57d0;
-      font-size: 14px;
-      white-space: pre-wrap;
-    }
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    button.secondary { background:#5f6368; }
+    button:disabled { opacity:0.6; cursor:not-allowed; }
+    .status { margin-top:12px; color:#0b57d0; font-size:14px; white-space:pre-wrap; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:16px; }
+    .rowcard { border:1px solid #e5e7eb; border-radius:14px; padding:12px; background:#fff; }
+    .rowtop { display:flex; align-items:flex-start; gap:10px; margin-bottom:10px; }
+    .rowtitle { font-weight:800; font-size:16px; }
+    .rowsub { font-size:13px; color:#6b7280; margin-top:2px; line-height:1.4; }
+
+    .previewwrap {
+      display: flex;
+      flex-direction: column;
       gap: 16px;
     }
-    .rowcard {
-      border: 1px solid #e5e7eb;
-      border-radius: 14px;
-      padding: 12px;
+    .previewbox {
+      overflow: auto;
+      border-radius: 12px;
+      border: 1px solid #dbe2ea;
       background: #fff;
-    }
-    .rowtop {
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-      margin-bottom: 10px;
-    }
-    .rowtitle {
-      font-weight: 800;
-      font-size: 16px;
-    }
-    .rowsub {
-      font-size: 13px;
-      color: #6b7280;
-      margin-top: 2px;
-      line-height: 1.4;
+      padding: 10px;
     }
 
-    /* Final poster canvas area */
     .poster {
       position: relative;
-      width: auto;
+      display: inline-block;
       background: #fff;
       color: #000;
-      border-radius: 0;
       overflow: hidden;
-      display: inline-block;
     }
 
     .poster img {
@@ -167,20 +122,6 @@
     .locate strong {
       font-weight: 800;
     }
-
-    .previewwrap {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-
-    .previewbox {
-      overflow: auto;
-      border-radius: 12px;
-      border: 1px solid #dbe2ea;
-      background: #fff;
-      padding: 10px;
-    }
   </style>
 </head>
 <body>
@@ -219,13 +160,11 @@
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxcM3hge5lSPhH2KiZPMOiD3YGbyHV5zb24Kw9CnyHNCV0M5zbPxBmIOZfX4DQwSy_8/exec';
     let rows = [];
     let campaignDataUrl = '';
-    let campaignFileName = '';
 
     document.getElementById('imageFile').addEventListener('change', async (e) => {
       const file = e.target.files[0];
       if (!file) return;
       campaignDataUrl = await fileToDataUrl(file);
-      campaignFileName = file.name || 'campaign.png';
       setStatus('Campaign image loaded.');
       if (rows.length) renderPreviewRows();
     });
