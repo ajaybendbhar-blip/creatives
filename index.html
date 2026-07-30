@@ -142,18 +142,6 @@
       color: #000;
       word-break: break-word;
     }
-
-    .locate {
-      margin-top: 6px;
-      font-size: 18px;
-      line-height: 1.35;
-      color: #000;
-      word-break: break-word;
-    }
-
-    .locate strong {
-      font-weight: 800;
-    }
   </style>
 </head>
 <body>
@@ -189,7 +177,7 @@
   </div>
 
   <script>
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw7oXEfeIfLQIWCDl7_PW49nY6forWVNOuAQzNTKB4NLEVRwAKDioMDyjq1HBgzSwKU/exec';
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx3_P5vGKx8DYbOxv6pqxNl3TgUHrHlrfMHusl36zm4LE9X5KnHlFVm88cFomVCC9lY/exec';
     let rows = [];
     let campaignDataUrl = '';
 
@@ -209,7 +197,14 @@
       try {
         setStatus('Loading branches from sheet...');
         const res = await fetch(SCRIPT_URL + '?action=getRows');
-        const data = await res.json();
+        const text = await res.text();
+        let data;
+        try {
+          data = JSON.parse(text);
+        } catch (e) {
+          console.error('Non-JSON response:', text);
+          throw new Error('Backend did not return JSON for getRows');
+        }
         rows = data.rows || [];
         renderRows();
         setStatus(`Loaded ${rows.length} branches.`);
@@ -312,7 +307,15 @@
             })
           });
 
-          const result = await resp.json();
+          const text = await resp.text();
+          let result;
+          try {
+            result = JSON.parse(text);
+          } catch (e) {
+            console.error('Non-JSON response:', text);
+            throw new Error('Backend did not return JSON for savePoster');
+          }
+
           if (!result.ok) throw new Error(result.error || 'Save failed');
         } catch (err) {
           console.error(err);
